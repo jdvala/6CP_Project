@@ -13,11 +13,11 @@ from random import randint
 
 df = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/KDD_Test_41.csv')
 ad = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/KDD_Train_41.csv')
-qw = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/NSL_TrainLabels_mat4.csv')
-er = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/NSL_ValidLabels_int2.csv')
+qw = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/NSL_TrainLabels_mat5.csv')
+er = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/NSL_TestLabels_mat5.csv')
 tr = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/KDD_Valid_41.csv')
 yu = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/NSL_TestLabels_mat5.csv')
-
+rt = pd.read_csv('C:/Users/Jay/Desktop/MachineLearning/dataset/NSL-KDD Processed/NSL_TrainLabels_int.csv')
 
 a = df.values
 b = ad.values
@@ -25,13 +25,14 @@ c = qw.values
 d = er.values
 e = tr.values
 f = yu.values
+g = rt.values
 test_set = np.float32(a)
 train_set = np.float32(b)
 train_labels_set = np.float32(c)
 valid_labels_set = np.float32(d)
 valid_set = np.float32(e)
 test_labels_set = np.float32(f)
-
+test_set_for_CM =np.float32(g)
 
 
 f = randint(0,20)
@@ -42,9 +43,9 @@ y = tf.placeholder("float",[None, 5])		#for lables with shape of None,10
 #z = tflearn.layers.core.one_hot_encoding(test_labels_set, n_classes = 5, name = 'one_hot_encoded_testlables')
 # Building the encoder
 encoder = tflearn.input_data(shape=[None, 41])
-encoder = tflearn.fully_connected(encoder, 41)
-encoder = tflearn.fully_connected(encoder, 31)
-encoder = tflearn.fully_connected(encoder, 10, activation='softmax')
+encoder = tflearn.fully_connected(encoder, 30)
+encoder = tflearn.fully_connected(encoder, 20)
+encoder = tflearn.fully_connected(encoder, 5, activation='softmax')
 
 #For calculating Accuracy at every step of model training 
 acc= tflearn.metrics.Accuracy()
@@ -91,8 +92,8 @@ with sess.as_default():
 
 
 # Training the Neural Network (for details http://tflearn.org/models/dnn/)
-model.fit(test_set, test_labels_set, n_epoch=10, validation_set=(valid_set, valid_labels_set),
-          run_id="auto_encoder", batch_size=None,show_metric=False, snapshot_epoch=False)
+model.fit(test_set, test_labels_set, n_epoch=1, validation_set=(train_set, train_labels_set),
+          run_id="auto_encoder", batch_size=1,show_metric=True, snapshot_epoch=False)
 
 # Here I evaluate the model with Test Images and Test Lables, calculating the Mean Accuracy of the model.
 evaluation= model.evaluate(train_set,train_labels_set)
@@ -124,14 +125,13 @@ with sess.as_default():
 
 # Used Sklearn library for evaluation as tensorflows library was not documented properly 
 # Generated the Confusion Matrix 
-confusionMatrix = confusion_matrix(train_labels_set, predicted_labels)
+confusionMatrix = confusion_matrix(test_set_for_CM, predicted_labels)
 print("\n"+"\t"+"The confusion Matrix is ")
 print ("\n",confusionMatrix)
 
 # Classification_report in Sklearn provide all the necessary scores needed to succesfully evaluate the model. 
-classification = classification_report(train_labels_set,predicted_labels, digits=4, 
+classification = classification_report(test_set_for_CM,predicted_labels, digits=4, 
 				target_names =['class 0','class 1','class 2','class 3','class 4'])
 print("\n"+"\t"+"The classification report is ")
 
 print ("\n",classification)
-
