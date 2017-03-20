@@ -1,6 +1,6 @@
 from __future__ import division, print_function, absolute_import
 
-
+import timeit
 import numpy as np
 import tflearn
 import pandas as pd
@@ -9,6 +9,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from random import randint
 
+#timer 
+start = timeit.default_timer()
 #Load Dataset
 df = pd.read_csv('C:/DeepLearning_lib/NSL/NSL-KDD Processed/KDD_Test_41.csv')
 ad = pd.read_csv('C:/DeepLearning_lib/NSL/NSL-KDD Processed/KDD_Train_41.csv')
@@ -137,4 +139,5 @@ classification = classification_report(test_set_for_CM,predicted_labels, digits=
 print("\n"+"\t"+"The classification report is ")
 
 print ("\n",classification)
-
+stop = timeit.default_timer()
+print ("The total time for this algorithm is ",stop-start)
