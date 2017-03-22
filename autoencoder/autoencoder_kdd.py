@@ -96,7 +96,7 @@ with sess.as_default():
 
 
 # Training the Neural Network (for details http://tflearn.org/models/dnn/)
-model.fit(test_set, test_labels_set, n_epoch=20, validation_set=(train_set, train_labels_set),
+model.fit(test_set, test_labels_set, n_epoch=20, validation_set=(valid_set, valid_labels_set),
           run_id="auto_encoder", batch_size=1,show_metric=True, snapshot_epoch=False)
 
 # Here I evaluate the model with Test Images and Test Lables, calculating the Mean Accuracy of the model.
