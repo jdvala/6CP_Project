@@ -140,4 +140,5 @@ print("\n"+"\t"+"The classification report is ")
 
 print ("\n",classification)
 stop = timeit.default_timer()
-print ("The total time for this algorithm is ",stop-start)
+mins = (stop - start)/60
+print ("The total time for this algorithm is ",mins,"min")
