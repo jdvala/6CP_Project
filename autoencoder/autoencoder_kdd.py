@@ -43,7 +43,7 @@ x = tf.placeholder("float",[None, 41]) 	#for images with shape of None,
 y = tf.placeholder("float",[None, 5])		#for lables with shape of None,10
 #z = tflearn.layers.core.one_hot_encoding(test_labels_set, n_classes = 5, name = 'one_hot_encoded_testlables')
 
-# Building the encoder
+# Building the encoder Network
 encoder = tflearn.input_data(shape=[None, 41])
 encoder = tflearn.fully_connected(encoder, 41)
 encoder = tflearn.fully_connected(encoder, 30)
@@ -63,36 +63,6 @@ net = tflearn.regression(encoder, optimizer='adam', learning_rate=0.001,
 model = tflearn.DNN(net, tensorboard_verbose=0)
 
 sess = tf.Session()
-with sess.as_default():
-    j = tf.shape(test_set)
-    k = tf.rank(test_set)
-    print("Shape of test_set is :",j.eval())
-    print("Rank of test_set is :",k.eval())
-
-    zx = tf.shape(train_set)
-    xz = tf.rank(train_set)
-    print("Shape of train_set is :",zx.eval())
-    print("Rank of train_set is :",xz.eval())
-
-    jf = tf.shape(train_labels_set)
-    kf = tf.rank(train_labels_set)
-    print("Shape of train_labels is :",jf.eval())
-    print("Rank of train_labels is :",kf.eval())
-                 
-    ja = tf.shape(valid_labels_set)
-    ka = tf.rank(valid_labels_set)
-    print("Shape of valid_labels_set is :",ja.eval())
-    print("Rank of valid_labels_set is :",ka.eval())
-
-    js = tf.shape(valid_set)
-    ks = tf.rank(valid_set)
-    print("Shape of valid_set is :",js.eval())
-    print("Rank of valid_set is :",ks.eval())
-
-    jd = tf.shape(test_labels_set)
-    kd = tf.rank(test_labels_set)
-    print("Shape of test_labels_set is :",jd.eval())
-    print("Rank of test_labels_set is :",kd.eval())
 
 
 # Training the Neural Network (for details http://tflearn.org/models/dnn/)
