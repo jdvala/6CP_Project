@@ -6,6 +6,7 @@ import pandas as pd
 from sklearn.metrics import accuracy_score
 import operator
 import os
+from sys import exit
 os.system('clear')
 os.environ['TF_CPP_MIN_LOG_LEVEL']='3'
 
@@ -114,7 +115,21 @@ y_true = X
 
 # Define loss and optimizer, minimize the squared error
 cost = tf.reduce_mean(tf.pow(y_true - y_pred, 2))
-optimizer = tf.train.AdamOptimizer(pre_learning_rate).minimize(cost)
+
+command = int(input("1 for Adam Optimizer,\n2 for RMSprop,\n3 for Gradient Descent Optimizer,\n4 for Momentum Optimizer,\n"))
+
+if command == 1:
+    optimizer = tf.train.AdamOptimizer(pre_learning_rate).minimize(cost)
+elif command == 2:
+    optimizer = tf.train.RMSpropOptimizer(pre_learning_rate).minimize(cost)
+elif command == 3:
+    momnetum = float(input("\nPlease enter the value of momentum (only floating point values are allowed): "))
+    optimizer = tf.train.MomentumOptimizer(pre_learning_rate,momentum).minimize(cost)
+else:
+   print("You have entered a wrong option, exiting...\n")
+   exit(0)
+
+#optimizer = tf.train.AdamOptimizer(pre_learning_rate).minimize(cost)
 
 # Initializing the variables
 init = tf.global_variables_initializer()
@@ -192,7 +207,20 @@ y_true = Y
 
 # Define loss and optimizer, minimize the squared error
 cost = tf.reduce_mean(tf.pow(y_true - y_pred, 2))
-optimizer = tf.train.AdamOptimizer(post_learning_rate).minimize(cost)
+command = int(input("1 for Adam Optimizer,\n2 for RMSprop,\n3 for Gradient Descent Optimizer,\n4 for Momentum Optimizer,\n"))
+
+if command == 1:
+    optimizer = tf.train.AdamOptimizer(pre_learning_rate).minimize(cost)
+elif command == 2:
+    optimizer = tf.train.RMSpropOptimizer(pre_learning_rate).minimize(cost)
+elif command == 3:
+    momnetum = float(input("\nPlease enter the value of momentum (only floating point values are allowed): "))
+    optimizer = tf.train.MomentumOptimizer(pre_learning_rate,momentum).minimize(cost)
+else:
+   print("You have entered a wrong option, exiting...\n")
+   exit(0)
+
+#optimizer = tf.train.AdamOptimizer(post_learning_rate).minimize(cost)
 
 # Initializing the variables
 init = tf.global_variables_initializer()
